@@ -44,7 +44,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:150',
             'content' => 'required',
-            'published_at' => 'nullable|date|before_or_equal:today'
+            'published_at' => 'nullable|date|before_or_equal:today',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $data = $request->all();
@@ -79,7 +80,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit',compact('post'));
+        $categories = Category::all();
+
+        return view('admin.posts.edit',compact('post','categories'));
     }
 
     /**
@@ -94,7 +97,8 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:150',
             'content' => 'required',
-            'published_at' => 'nullable|date|before_or_equal:today'
+            'published_at' => 'nullable|date|before_or_equal:today',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         $data = $request->all();
